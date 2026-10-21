@@ -10,6 +10,20 @@ stages:
     outs:
       - data/splits
 
+  augment:
+    cmd: python stages/augment.py
+    deps:
+      - data/splits/train.csv
+      - data/splits/classes.json
+      - stages/augment.py
+      - stages/common.py
+    params:
+      - augment
+      - preprocess.img_size
+      - preprocess.seed
+    outs:
+      - data/augmented
+
   train:
     foreach:
       - simplecnn
@@ -22,6 +36,7 @@ stages:
         - data/splits/train.csv
         - data/splits/val.csv
         - data/splits/classes.json
+        - data/augmented/train_aug.csv
         - stages/train.py
         - stages/common.py
       params:

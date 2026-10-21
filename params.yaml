@@ -13,6 +13,15 @@ train:
   num_workers: 2
   threads: 4
   seed: 42
+  data: aug
+
+augment:
+  copies: 2
+  rotation: 25
+  jitter: 0.3
+  hue: 0.05
+  crop_scale: 0.7
+  seed: 42
 
 models:
   resnet18:

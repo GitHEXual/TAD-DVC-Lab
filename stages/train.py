@@ -68,7 +68,12 @@ def main() -> None:
     batch_size = hp["batch_size"]
     num_workers = params["train"]["num_workers"]
 
-    train_ds = ManifestDataset(splits / "train.csv", classes, img_size)
+    train_manifest = splits / "train.csv"
+    if params["train"].get("data", "raw") == "aug":
+        train_manifest = ROOT / "data" / "augmented" / "train_aug.csv"
+    print(f"[{key}] train manifest: {train_manifest.relative_to(ROOT)}")
+
+    train_ds = ManifestDataset(train_manifest, classes, img_size)
     val_ds = ManifestDataset(splits / "val.csv", classes, img_size)
     train_loader = DataLoader(
         train_ds, batch_size=batch_size, shuffle=True, num_workers=num_workers
