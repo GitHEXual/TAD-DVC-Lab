@@ -33,6 +33,10 @@ stages:
   train@simplecnn:
     cmd: python stages/train.py --model simplecnn
     deps:
+    - path: data/augmented/train_aug.csv
+      hash: md5
+      md5: 9f78386ffcf54d56c7e99998928dce4c
+      size: 170088
     - path: data/data_raw
       hash: md5
       md5: 4ab29485db68c08b93d57025ea532784.dir
@@ -56,8 +60,8 @@ stages:
       size: 5136
     - path: stages/train.py
       hash: md5
-      md5: 0a21eca62738cc850c1cc43e6cf47bc3
-      size: 5185
+      md5: 3761f681a0d90ee2c94d9947d3cf601a
+      size: 5418
     params:
       params.yaml:
         models.simplecnn:
@@ -74,15 +78,16 @@ stages:
           num_workers: 2
           threads: 4
           seed: 42
+          data: aug
     outs:
     - path: models/simplecnn.pt
       hash: md5
-      md5: 14e700aacfb0fe76a15a9d3434686b21
+      md5: f0c3b2ea48c7b5f86d254a172b13b384
       size: 1575189
     - path: reports/history/simplecnn.json
       hash: md5
-      md5: fe5922442cf4c363b7433370fc816f62
-      size: 1538
+      md5: e4a8fe294c23c6e22b9e521a1c893720
+      size: 1535
   evaluate@simplecnn:
     cmd: python stages/evaluate.py --model simplecnn
     deps:
@@ -296,3 +301,39 @@ stages:
       hash: md5
       md5: 6b458daca5dabc5c1f39bd99063014df
       size: 614
+  augment:
+    cmd: python stages/augment.py
+    deps:
+    - path: data/splits/classes.json
+      hash: md5
+      md5: b43287439931bcf9523477e42c36c894
+      size: 224
+    - path: data/splits/train.csv
+      hash: md5
+      md5: 5aa8a57e940585f9b18712d9975601ce
+      size: 51860
+    - path: stages/augment.py
+      hash: md5
+      md5: cea8f3b0929f6c40083a2110fc4f63b6
+      size: 2907
+    - path: stages/common.py
+      hash: md5
+      md5: 73a57b9ffb6a5a86fc8d006a570e1236
+      size: 5136
+    params:
+      params.yaml:
+        augment:
+          copies: 2
+          rotation: 25
+          jitter: 0.3
+          hue: 0.05
+          crop_scale: 0.7
+          seed: 42
+        preprocess.img_size: 96
+        preprocess.seed: 42
+    outs:
+    - path: data/augmented
+      hash: md5
+      md5: b16f85b03f4b3a90ec84cf50e96ba72e.dir
+      size: 9238916
+      nfiles: 2424
