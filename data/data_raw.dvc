@@ -1,0 +1,6 @@
+outs:
+- md5: 4ab29485db68c08b93d57025ea532784.dir
+  size: 34738647
+  nfiles: 2019
+  hash: md5
+  path: data_raw
