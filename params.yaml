@@ -6,7 +6,7 @@ preprocess:
   seed: 42
 
 train:
-  epochs: 7
+  epochs: 5
   batch_size: 64
   lr: 0.001
   weight_decay: 0.0001
@@ -19,16 +19,11 @@ models:
     arch: resnet18
     pretrained: true
     freeze_backbone: false
-    lr: 0.0003
-    epochs: 10
   efficientnet_b0:
     arch: efficientnet_b0
     pretrained: true
     freeze_backbone: false
-    lr: 0.0003
-    epochs: 10
   simplecnn:
     arch: simplecnn
     pretrained: false
     dropout: 0.3
-    lr: 0.001

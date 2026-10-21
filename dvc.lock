@@ -64,10 +64,9 @@ stages:
           arch: simplecnn
           pretrained: false
           dropout: 0.3
-          lr: 0.001
         preprocess.img_size: 96
         train:
-          epochs: 7
+          epochs: 5
           batch_size: 64
           lr: 0.001
           weight_decay: 0.0001
@@ -77,12 +76,12 @@ stages:
     outs:
     - path: models/simplecnn.pt
       hash: md5
-      md5: 14e700aacfb0fe76a15a9d3434686b21
+      md5: d2e7ec099cd83ab994bb4c358e2ce11a
       size: 1575189
     - path: reports/history/simplecnn.json
       hash: md5
-      md5: fe5922442cf4c363b7433370fc816f62
-      size: 1538
+      md5: 5609f263ebdc9b8794e41e49ab6f820a
+      size: 1100
   evaluate@simplecnn:
     cmd: python stages/evaluate.py --model simplecnn
     deps:
@@ -96,7 +95,7 @@ stages:
       size: 17316
     - path: models/simplecnn.pt
       hash: md5
-      md5: 14e700aacfb0fe76a15a9d3434686b21
+      md5: d2e7ec099cd83ab994bb4c358e2ce11a
       size: 1575189
     - path: stages/common.py
       hash: md5
@@ -104,20 +103,16 @@ stages:
       size: 5136
     - path: stages/evaluate.py
       hash: md5
-      md5: e5aae147dfc3a33652d99d948100b91f
-      size: 2907
+      md5: cd59b3245bb836ab3777ec476bcf059a
+      size: 2576
     params:
       params.yaml:
         train.batch_size: 64
     outs:
     - path: reports/metrics/simplecnn.json
       hash: md5
-      md5: 126df564345f2fc89b27680a1c12c2d8
+      md5: 84d0826b2b242104a2e0cabec994967b
       size: 234
-    - path: reports/per_class/simplecnn.json
-      hash: md5
-      md5: 9bf109ac67d649a00d59be77c61dcc4b
-      size: 602
   train@resnet18:
     cmd: python stages/train.py --model resnet18
     deps:
@@ -152,11 +147,9 @@ stages:
           arch: resnet18
           pretrained: true
           freeze_backbone: false
-          lr: 0.0003
-          epochs: 10
         preprocess.img_size: 96
         train:
-          epochs: 7
+          epochs: 5
           batch_size: 64
           lr: 0.001
           weight_decay: 0.0001
@@ -166,12 +159,12 @@ stages:
     outs:
     - path: models/resnet18.pt
       hash: md5
-      md5: 3b9b3b3cbc6b14f9095d0d89be199a76
+      md5: c95947febcbefe5995dda8fac5b424db
       size: 44796491
     - path: reports/history/resnet18.json
       hash: md5
-      md5: e0d3bc0a2e58b658ba74962e1ee6258e
-      size: 2160
+      md5: a49d4727d2cf9c34cfb3e94437dbfa38
+      size: 1100
   train@efficientnet_b0:
     cmd: python stages/train.py --model efficientnet_b0
     deps:
@@ -206,11 +199,9 @@ stages:
           arch: efficientnet_b0
           pretrained: true
           freeze_backbone: false
-          lr: 0.0003
-          epochs: 10
         preprocess.img_size: 96
         train:
-          epochs: 7
+          epochs: 5
           batch_size: 64
           lr: 0.001
           weight_decay: 0.0001
@@ -220,12 +211,12 @@ stages:
     outs:
     - path: models/efficientnet_b0.pt
       hash: md5
-      md5: 9a85aa1f19c3fd393e537450658fbc77
+      md5: be84070c8e09d4f14225c7b06d57e59c
       size: 16357727
     - path: reports/history/efficientnet_b0.json
       hash: md5
-      md5: 995d0f00e893d30bad93340613c82e7e
-      size: 2194
+      md5: cc3aa6c2cac4efb124519d8e415fa317
+      size: 1099
   evaluate@resnet18:
     cmd: python stages/evaluate.py --model resnet18
     deps:
@@ -239,7 +230,7 @@ stages:
       size: 17316
     - path: models/resnet18.pt
       hash: md5
-      md5: 3b9b3b3cbc6b14f9095d0d89be199a76
+      md5: c95947febcbefe5995dda8fac5b424db
       size: 44796491
     - path: stages/common.py
       hash: md5
@@ -247,20 +238,16 @@ stages:
       size: 5136
     - path: stages/evaluate.py
       hash: md5
-      md5: e5aae147dfc3a33652d99d948100b91f
-      size: 2907
+      md5: cd59b3245bb836ab3777ec476bcf059a
+      size: 2576
     params:
       params.yaml:
         train.batch_size: 64
     outs:
     - path: reports/metrics/resnet18.json
       hash: md5
-      md5: c3f46900a4c848d48bb5322fb469e4df
+      md5: 8e93ecd92c9d71376982f2a96cac5089
       size: 229
-    - path: reports/per_class/resnet18.json
-      hash: md5
-      md5: 5f8acb6b948a440a642f58f0a61bb1d8
-      size: 608
   evaluate@efficientnet_b0:
     cmd: python stages/evaluate.py --model efficientnet_b0
     deps:
@@ -274,7 +261,7 @@ stages:
       size: 17316
     - path: models/efficientnet_b0.pt
       hash: md5
-      md5: 9a85aa1f19c3fd393e537450658fbc77
+      md5: be84070c8e09d4f14225c7b06d57e59c
       size: 16357727
     - path: stages/common.py
       hash: md5
@@ -282,17 +269,13 @@ stages:
       size: 5136
     - path: stages/evaluate.py
       hash: md5
-      md5: e5aae147dfc3a33652d99d948100b91f
-      size: 2907
+      md5: cd59b3245bb836ab3777ec476bcf059a
+      size: 2576
     params:
       params.yaml:
         train.batch_size: 64
     outs:
     - path: reports/metrics/efficientnet_b0.json
       hash: md5
-      md5: fced2427c5c1a1e51c2929b10672d2b5
+      md5: 49be3a54850e420ef7ff777fa6049c06
       size: 245
-    - path: reports/per_class/efficientnet_b0.json
-      hash: md5
-      md5: 6b458daca5dabc5c1f39bd99063014df
-      size: 614
