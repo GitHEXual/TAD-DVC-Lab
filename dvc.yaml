@@ -1,0 +1,57 @@
+stages:
+  preprocess:
+    cmd: python stages/preprocess.py
+    deps:
+      - data/data_raw
+      - stages/preprocess.py
+      - stages/common.py
+    params:
+      - preprocess
+    outs:
+      - data/splits
+
+  train:
+    foreach:
+      - simplecnn
+      - resnet18
+      - efficientnet_b0
+    do:
+      cmd: python stages/train.py --model ${item}
+      deps:
+        - data/data_raw
+        - data/splits/train.csv
+        - data/splits/val.csv
+        - data/splits/classes.json
+        - stages/train.py
+        - stages/common.py
+      params:
+        - train
+        - preprocess.img_size
+        - models.${item}
+      outs:
+        - models/${item}.pt
+      plots:
+        - reports/history/${item}.json:
+            x: epoch
+            y: val_acc
+            y_label: val accuracy
+
+  evaluate:
+    foreach:
+      - simplecnn
+      - resnet18
+      - efficientnet_b0
+    do:
+      cmd: python stages/evaluate.py --model ${item}
+      deps:
+        - models/${item}.pt
+        - data/splits/test.csv
+        - data/splits/classes.json
+        - stages/evaluate.py
+        - stages/common.py
+      params:
+        - train.batch_size
+      metrics:
+        - reports/metrics/${item}.json
+      outs:
+        - reports/per_class/${item}.json
