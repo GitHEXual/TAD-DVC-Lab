@@ -68,5 +68,3 @@ stages:
         - train.batch_size
       metrics:
         - reports/metrics/${item}.json
-      outs:
-        - reports/per_class/${item}.json

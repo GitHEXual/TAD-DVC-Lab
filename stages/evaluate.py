@@ -64,24 +64,16 @@ def main() -> None:
     }
     save_json(ROOT / "reports" / "metrics" / f"{key}.json", metrics)
 
-    per_class = {
-        name: {
-            "precision": round(report[name]["precision"], 4),
-            "recall": round(report[name]["recall"], 4),
-            "f1": round(report[name]["f1-score"], 4),
-            "support": int(report[name]["support"]),
-        }
-        for name in classes
-    }
-    save_json(ROOT / "reports" / "per_class" / f"{key}.json", per_class)
-
     print(
         f"[{key}] acc={metrics['accuracy']} macro_f1={metrics['macro_f1']} "
         f"weighted_f1={metrics['weighted_f1']}"
     )
     for name in classes:
-        row = per_class[name]
-        print(f"  {name:10} f1={row['f1']:.3f} recall={row['recall']:.3f} n={row['support']}")
+        row = report[name]
+        print(
+            f"  {name:10} f1={row['f1-score']:.3f} "
+            f"recall={row['recall']:.3f} n={int(row['support'])}"
+        )
 
 
 if __name__ == "__main__":
